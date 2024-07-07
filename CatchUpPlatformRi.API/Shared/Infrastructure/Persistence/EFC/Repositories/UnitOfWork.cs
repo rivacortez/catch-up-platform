@@ -1,6 +1,19 @@
-﻿namespace CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+﻿using CatchUpPlatformRi.API.Shared.Domain.Repositories;
+using CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
-public class UnitOfWork
+namespace CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+
+public class UnitOfWork:IUnitOfWork
 {
-    
+    private readonly AppDbContext _context;
+
+
+    public UnitOfWork(AppDbContext context)
+    {
+        _context = context;
+    }
+    public async Task CompleteAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }
