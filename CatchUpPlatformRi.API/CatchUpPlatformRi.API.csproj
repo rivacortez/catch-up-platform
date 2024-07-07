@@ -25,7 +25,8 @@
       <Folder Include="News\Domain\" />
       <Folder Include="News\Infrastructure\" />
       <Folder Include="News\Interface\" />
-      <Folder Include="Shared\Interface\" />
+      <Folder Include="Shared\Infrastructure\Interfaces\ASP\Configuration\Extensions\" />
+      <Folder Include="Shared\Infrastructure\Persistence\" />
     </ItemGroup>
 
 </Project>
