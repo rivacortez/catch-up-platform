@@ -1,0 +1,6 @@
+@CatchUpPlatformRi.API_HostAddress = http://localhost:5220
+
+GET {{CatchUpPlatformRi.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
