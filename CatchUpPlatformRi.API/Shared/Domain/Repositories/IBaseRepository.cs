@@ -3,9 +3,9 @@
 public interface IBaseRepository<TEntity>
 {
     Task AddAsync(TEntity entity);
-    Task<TEntity?> FindByAsync(int id);
+    Task<TEntity?> FindByIdAsync(int id);
 
     void Update(TEntity entity);
-    void Delete(TEntity entity);
+    void Remove(TEntity entity);
 
 }
