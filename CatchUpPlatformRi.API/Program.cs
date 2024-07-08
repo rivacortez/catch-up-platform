@@ -1,56 +1,82 @@
+using CatchUpPlatformRi.API.News.Application.Internal.CommandServices;
+using CatchUpPlatformRi.API.News.Application.Internal.QueryServices;
+using CatchUpPlatformRi.API.News.Domain.Repositories;
+using CatchUpPlatformRi.API.News.Domain.Services;
+using CatchUpPlatformRi.API.News.Infrastructure.Repositories;
+using CatchUpPlatformRi.API.Shared.Domain.Repositories;
+using CatchUpPlatformRi.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-/* Configure Kebab Case Route Naming Convention
-*/
+// Configure Kebab Case Route Naming Convention
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new KebabCaseRouteNamingConvention());
+});
 
-//don´t delete
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/* Add Database Connection
- */
+// Add Database Connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Configure Database Context and Logging Levels
+
+builder.Services.AddDbContext<AppDbContext>(
+    options =>
+    {
+        if (connectionString != null)
+            if (builder.Environment.IsDevelopment())
+                options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            else if (builder.Environment.IsProduction())
+                    options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Error)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();    
+    });
+
+// Configure Lowercase URLs
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 
-/* Configure Database Context and Logging Levels
-*/
+// Configure Kebab Case Route Naming Convention
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new KebabCaseRouteNamingConvention());
+});
 
-/* Configure Lowercase URLs
-*/
+    // Configure Dependency Injection
 
+// Shared Bounded Context Injection Configuration
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-/* Configure Kebab Case Route Naming Convention
-*/
-
-
-// Configure Dependency Injection
-/* Shared Bounded Context Injection Configuration
-*/
-
-
-
-
-/*put Bounded Context Injection Configuration
-*/
+// News Bounded Context Injection Configuration
+builder.Services.AddScoped<IFavoriteSourceRepository, FavoriteSourceRepository>();
+builder.Services.AddScoped<IFavoriteSourceCommandService, FavoriteSourceCommandService>();
+builder.Services.AddScoped<IFavoriteSourceQueryService, FavoriteSourceQueryService>();
 
 
-//don´t delete
 var app = builder.Build();
 
+// Verify Database Objects are created
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+}
 
-
-
-/*put ->  Verify Database Objects are created
-*/
-
-
-
-
-//no eliminar
 // Configure the HTTP request pipeline.
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -58,7 +84,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-app.Run();
 
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
