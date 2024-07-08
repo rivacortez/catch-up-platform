@@ -22,7 +22,9 @@
 
     <ItemGroup>
       <Folder Include="News\Application\" />
-      <Folder Include="News\Domain\" />
+      <Folder Include="News\Domain\Model\" />
+      <Folder Include="News\Domain\Repositories\" />
+      <Folder Include="News\Domain\Services\" />
       <Folder Include="News\Infrastructure\" />
       <Folder Include="News\Interface\" />
     </ItemGroup>
