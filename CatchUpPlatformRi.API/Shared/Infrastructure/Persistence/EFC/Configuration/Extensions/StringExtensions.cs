@@ -2,7 +2,6 @@
 
 public static class StringExtensions
 {
- 
     public static string ToSnakeCase(this string text)
     {
         return new string(Convert(text.GetEnumerator()).ToArray());
@@ -10,8 +9,9 @@ public static class StringExtensions
         static IEnumerable<char> Convert(CharEnumerator e)
         {
             if (!e.MoveNext()) yield break;
+
             yield return char.ToLower(e.Current);
-            
+
             while (e.MoveNext())
                 if (char.IsUpper(e.Current))
                 {
@@ -23,6 +23,5 @@ public static class StringExtensions
                     yield return e.Current;
                 }
         }
-      
     }
 }

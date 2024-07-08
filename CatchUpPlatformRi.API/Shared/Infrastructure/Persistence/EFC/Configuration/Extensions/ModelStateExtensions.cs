@@ -4,7 +4,6 @@ namespace CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Configurat
 
 public static class ModelStateExtensions
 {
-
     public static List<string> GetErrorMessages(this ModelStateDictionary dictionary)
     {
         return dictionary
@@ -12,5 +11,4 @@ public static class ModelStateExtensions
             .Select(m => m.ErrorMessage)
             .ToList();
     }
-    
 }
