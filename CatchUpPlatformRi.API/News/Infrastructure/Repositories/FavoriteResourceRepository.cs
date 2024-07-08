@@ -19,7 +19,6 @@ public class FavoriteSourceRepository : BaseRepository<FavoriteSource>, IFavorit
 
     public async Task<FavoriteSource?> FindByNewsApiKeyAndSourceIdAsync(string newsApiKey, string sourceId)
     {
-       return await Context.Set<FavoriteSource>().FirstOrDefaultAsync(f=>f.NewsApiKey== newsApiKey && f.SourceId == sourceId);
-       
+        return await Context.Set<FavoriteSource>().FirstOrDefaultAsync(f => f.NewsApiKey == newsApiKey && f.SourceId == sourceId);
     }
 }
