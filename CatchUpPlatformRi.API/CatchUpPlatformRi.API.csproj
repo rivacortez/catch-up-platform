@@ -22,8 +22,8 @@
 
     <ItemGroup>
       <Folder Include="News\Application\" />
-      <Folder Include="News\Infrastructure\" />
-      <Folder Include="News\Interface\" />
+      <Folder Include="News\Interfaces\REST\Resources\" />
+      <Folder Include="News\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>
