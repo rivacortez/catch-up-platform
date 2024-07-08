@@ -1,5 +1,6 @@
 ﻿using CatchUpPlatformRi.API.Shared.Domain.Repositories;
 using CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatchUpPlatformRi.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 
@@ -32,5 +33,10 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     public void Remove(TEntity entity)
     {
         Context.Set<TEntity>().Remove(entity);
+    }
+
+    public async Task<IEnumerable<TEntity>> ListAsync()
+    {
+        return await Context.Set<TEntity>().ToListAsync();
     }
 }
