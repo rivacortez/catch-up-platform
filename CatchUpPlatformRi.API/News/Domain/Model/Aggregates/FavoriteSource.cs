@@ -1,4 +1,6 @@
-﻿namespace CatchUpPlatformRi.API.News.Domain.Model.Aggregates;
+﻿using CatchUpPlatformRi.API.News.Domain.Model.Commands;
+
+namespace CatchUpPlatformRi.API.News.Domain.Model.Aggregates;
 
 public class FavoriteSource
 {
@@ -11,6 +13,11 @@ public class FavoriteSource
         this.NewsApiKey = string.Empty;
         this.SourceId = string.Empty;
     }
-    
+
+    public FavoriteSource(CreateFavoriteSourceCommand command)
+    {
+        this.NewsApiKey = command.NewsApiKey;
+        this.SourceId = command.SourceId;
+    }
     
 }
