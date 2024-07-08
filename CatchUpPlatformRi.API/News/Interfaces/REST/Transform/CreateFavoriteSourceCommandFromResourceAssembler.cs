@@ -6,6 +6,5 @@ namespace CatchUpPlatformRi.API.News.Interfaces.REST.Transform;
 public static class CreateFavoriteSourceCommandFromResourceAssembler
 {
     public static CreateFavoriteSourceCommand ToCommandFromResource(CreateFavoriteSourceResource resource) =>
-        new CreateFavoriteSourceCommand(resource.NewsApiKey, resource.SourceId);
-  
+        new CreateFavoriteSourceCommand(resource.NewsApiKey, resource.SourceId); 
 }
