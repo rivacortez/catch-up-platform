@@ -1,3 +1,3 @@
 ﻿namespace CatchUpPlatformRi.API.News.Domain.Model.Commands;
 
-public record CreateFavoriteSourceCommand();
+public record CreateFavoriteSourceCommand(string NewsApiKey, string SourceId);
